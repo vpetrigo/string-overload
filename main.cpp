@@ -44,8 +44,7 @@ struct String {
     // String_part(s.str, 1)[3] -> String_part::operator[](end = 3)
     String operator[](size_t end) const {
       size_t new_size = end - begin;
-      char *tmp = new char[new_size + 1];
-      tmp[0] = '\0';
+      char *tmp = new char[new_size + 1] {'\0'};
 
       if (begin < end) {
         for (int i = 0; i < new_size; ++i) {
