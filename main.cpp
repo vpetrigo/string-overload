@@ -45,7 +45,7 @@ struct String {
     String operator[](size_t end) const {
       size_t new_size = end - begin;
       char *tmp = new char[new_size + 1];
-      fill(tmp, tmp + new_size + 1, '0');
+      fill(tmp, tmp + new_size, '0');
 
       if (begin < end) {
         for (int i = 0; i < new_size; ++i) {
