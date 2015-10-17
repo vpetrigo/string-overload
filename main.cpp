@@ -42,26 +42,23 @@ struct String {
     // If the boundary [begin, end) meets begin < end construct new string
     // in all other cases return an empty string
     // String_part(s.str, 1)[3] -> String_part::operator[](end = 3)
-    String& operator[](size_t end) const {
-      String *new_str;
+    String operator[](size_t end) const {
+      size_t new_size = end - begin;
+      char *tmp = new char[new_size + 1];
+      tmp[0] = '\0';
 
       if (begin < end) {
-        size_t new_size = end - begin;
-        char *tmp = new char[new_size + 1];
-
         for (int i = 0; i < new_size; ++i) {
           tmp[i] = ptr_to_str[i + begin];
         }
 
         tmp[new_size] = '\0';
-        new_str = new String(tmp);
-        delete[] tmp;
-      }
-      else {
-        new_str = new String("");
       }
 
-      return *new_str;
+      String s {tmp};
+      delete[] tmp;
+
+      return s;
     }
 
     const char *ptr_to_str;
