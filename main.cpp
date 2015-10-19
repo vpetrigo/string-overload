@@ -32,6 +32,24 @@ struct String {
     delete[] str;
   };
 
+  String(const String& s) : size{s.size}, str{new char[size + 1]} {
+    copy(s.str, s.str + size, str);
+    str[size] = '\0';
+  }
+
+  String& operator=(const String& s) {
+    if (*this != s) {
+      String{s}.swap(*this);
+    }
+
+    return *this;
+  }
+
+  void swap(String& s) {
+    ::swap(size, s.size);
+    ::swap(str, s.str);
+  }
+
   // class for getting part of current string
   struct String_part {
     // Constructor for calling from String operator[]
