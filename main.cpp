@@ -38,7 +38,7 @@ struct String {
   }
 
   String& operator=(const String& s) {
-    if (*this != s) {
+    if (this != &s) {
       String{s}.swap(*this);
     }
 
@@ -61,16 +61,21 @@ struct String {
     // in all other cases return an empty string
     // String_part(s.str, 1)[3] -> String_part::operator[](end = 3)
     String operator[](size_t end) const {
-      size_t new_size = end - begin;
-      char *tmp = new char[new_size + 1];
-      fill(tmp, tmp + new_size, '0');
+      char *tmp;
 
       if (begin < end) {
+        size_t new_size = end - begin;
+        tmp = new char[new_size + 1];
+        fill(tmp, tmp + new_size + 1, '\0');
+
         for (int i = 0; i < new_size; ++i) {
           tmp[i] = ptr_to_str[i + begin];
         }
-
-        tmp[new_size] = '\0';
+      }
+      else {
+        const size_t one_sym = 1;
+        tmp = new char[one_sym];
+        fill(tmp, tmp + one_sym, '\0');
       }
 
       String s {tmp};
